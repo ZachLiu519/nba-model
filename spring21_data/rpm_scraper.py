@@ -32,7 +32,7 @@ def scrape_rpm(years):
                     if j < i-1:
                         name += " "
                 data = data[:1] + [name] + data[i+2:]
-                data.append(name + "20{s}-{e}".format(s=start, e=end))
+                data.append(year+1)
                 bpms.append(data)
             print("success for page {p}".format(p = page))
         
@@ -40,9 +40,9 @@ def scrape_rpm(years):
         print("success for year {y}".format(y = year))
 
     headers = soup.find_all(class_ = "colhead")[0].getText(separator=u' ').split(" ")
-    headers.append("KEY")
+    headers.append("end season")
     df = pd.DataFrame(bpms, columns=headers)
     return df
 
 BPM_15_20 = scrape_rpm(list(range(2015, 2021)))
-BPM_15_20.to_excel('BPM_15_20.xlsx')
+BPM_15_20.to_excel('RPM_15_20.xlsx')
