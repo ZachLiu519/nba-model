@@ -42,8 +42,10 @@ def scrape_FA(year):
     print(headers)
 
     rows = soup.findAll('tr')[1:]
-    all_FA = [[th.getText() for th in rows[i].findAll('th')] + [td.getText() for td in rows[i].findAll('td')] for i in range(len(rows))]
+    rows = [row for row in rows if (not row.get('class'))]
+    all_FA = [[th.getText() for th in row.findAll('th')] + [td.getText() for td in row.findAll('td')] for row in rows]
     FA = pd.DataFrame(all_FA, columns = headers)
+    FA['end season'] = year
     
     return FA[FA[headers[0]].astype(bool)]
     
@@ -51,7 +53,7 @@ FA_last_5_years = pd.concat([scrape_FA(year=i) for i in range(2016, 2021)], axis
 
 FA_last_5_years.drop(columns = ['2015-16 Stats', '2016-17 Stats', '2017-18 Stats', '2018-19 Stats', '2019-20 Stats' ], inplace=True)
 
-FA_last_5_years.to_csv("free_agents_16to20.csv")
+# FA_last_5_years.to_csv("free_agents_16to20.csv")
 
 FA_last_5_years.to_excel('FA_16_20.xlsx')
 
