@@ -32,7 +32,7 @@ def scrape_rpm(years):
                     if j < i-1:
                         name += " "
                 data = data[:1] + [name] + data[i+2:]
-                data.append(year+1)
+                data.append(year)
                 bpms.append(data)
             print("success for page {p}".format(p = page))
         
